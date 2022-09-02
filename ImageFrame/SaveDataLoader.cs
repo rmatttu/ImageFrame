@@ -18,5 +18,14 @@ namespace ImageFrame
             using StreamReader reader = new StreamReader(Location);
             return JsonSerializer.Deserialize<SaveData>(reader.BaseStream);
         }
+
+        public static void Save(SaveData saveData)
+        {
+            using StreamWriter writer = new StreamWriter(Location, false);
+            var json = JsonSerializer.Serialize(saveData);
+            writer.Write(json);
+            writer.Flush();
+            writer.Close();
+        }
     }
 }

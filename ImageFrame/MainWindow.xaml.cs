@@ -24,6 +24,7 @@ namespace ImageFrame
     public partial class MainWindow : Window
     {
         DispatcherTimer timer;
+        SaveData saveData;
 
         public MainWindow()
         {
@@ -40,7 +41,7 @@ namespace ImageFrame
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var saveData = SaveDataLoader.Load();
+            saveData = SaveDataLoader.Load();
             if (saveData.images.Count <= 0) return;
             if (!File.Exists(saveData.images[0].path)) return;
             image1.Source = new BitmapImage(new Uri(saveData.images[0].path));
@@ -76,5 +77,9 @@ namespace ImageFrame
             WindowStyle = WindowStyle.None;
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveDataLoader.Save(saveData);
+        }
     }
 }

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace ImageFrame
 {
@@ -22,6 +23,8 @@ namespace ImageFrame
     /// </summary>
     public partial class MainWindow : Window
     {
+        DispatcherTimer timer;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,6 +32,10 @@ namespace ImageFrame
             var assembly = Application.Current.MainWindow.GetType().Assembly;
             var version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
             Title = assembly.GetName().Name + " " + version;
+
+            timer = new DispatcherTimer();
+            timer.Tick += Timer_Tick;
+            timer.Interval = TimeSpan.FromSeconds(3.0);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -38,5 +45,31 @@ namespace ImageFrame
             if (!File.Exists(saveData.images[0].path)) return;
             image1.Source = new BitmapImage(new Uri(saveData.images[0].path));
         }
+
+        private void Window_MouseLeave(object sender, MouseEventArgs e)
+        {
+            timer.Start();
+        }
+
+        private void Window_MouseEnter(object sender, MouseEventArgs e)
+        {
+            // timer canceled, reset
+            timer.Stop();
+        }
+
+        private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            // timer canceled, reset
+            timer.Stop();
+            WindowStyle = WindowStyle.SingleBorderWindow;
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            // timer finished, reset
+            timer.Stop();
+            WindowStyle = WindowStyle.None;
+        }
+
     }
 }

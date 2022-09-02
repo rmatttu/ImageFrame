@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,10 @@ namespace ImageFrame
         public MainWindow()
         {
             InitializeComponent();
+
+            var assembly = Application.Current.MainWindow.GetType().Assembly;
+            var version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
+            Title = assembly.GetName().Name + " " + version;
         }
     }
 }

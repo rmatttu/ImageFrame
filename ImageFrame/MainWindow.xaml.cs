@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -44,6 +44,11 @@ namespace ImageFrame
             if (saveData.images.Count <= 0) return;
             if (!File.Exists(saveData.images[0].path)) return;
             image1.Source = new BitmapImage(new Uri(saveData.images[0].path));
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            WindowStyle = WindowStyle == WindowStyle.None ? WindowStyle.SingleBorderWindow : WindowStyle.None;
         }
 
         private void Window_MouseLeave(object sender, MouseEventArgs e)

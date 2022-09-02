@@ -41,7 +41,7 @@ namespace ImageFrame
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            saveData = SaveDataLoader.Load();
+            saveData = SaveDataIO.Load();
             if (saveData.images.Count <= 0) return;
             if (!File.Exists(saveData.images[0].path)) return;
             image1.Source = new BitmapImage(new Uri(saveData.images[0].path));
@@ -79,7 +79,7 @@ namespace ImageFrame
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            SaveDataLoader.Save(saveData);
+            SaveDataIO.Save(saveData);
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImageFrame
 {
-    public class SaveDataLoader
+    public class SaveDataIO
     {
         public static string Location { get; } = "SaveData.json";
 

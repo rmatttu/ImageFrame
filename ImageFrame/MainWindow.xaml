@@ -6,9 +6,6 @@
         xmlns:local="clr-namespace:ImageFrame"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        MouseLeftButtonUp="Window_MouseLeftButtonUp"
-        MouseEnter="Window_MouseEnter"
-        MouseLeave="Window_MouseLeave"
         Closing="Window_Closing"
         Title="MainWindow" Height="450" Width="800">
     <Window.ContextMenu>

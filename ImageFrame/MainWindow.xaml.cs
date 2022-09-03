@@ -23,8 +23,8 @@ namespace ImageFrame
     /// </summary>
     public partial class MainWindow : Window
     {
-        DispatcherTimer timer;
         SaveData saveData;
+        List<ImageWindow> imageWindows;
 
         public MainWindow()
         {
@@ -33,52 +33,31 @@ namespace ImageFrame
             var assembly = Application.Current.MainWindow.GetType().Assembly;
             var version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
             Title = assembly.GetName().Name + " " + version;
-
-            timer = new DispatcherTimer();
-            timer.Tick += Timer_Tick;
-            timer.Interval = TimeSpan.FromSeconds(3.0);
+            imageWindows = new List<ImageWindow>();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             saveData = SaveDataIO.Load();
-            if (saveData.images.Count <= 0) return;
-            if (!File.Exists(saveData.images[0].path)) return;
-            image1.Source = new BitmapImage(new Uri(saveData.images[0].path));
+            foreach (var item in saveData.images)
+            {
+                ImageWindow window = new ImageWindow();
+                window.DisplayImage = item;
+                window.Show();
+                imageWindows.Add(window);
+            }
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            WindowStyle = WindowStyle == WindowStyle.None ? WindowStyle.SingleBorderWindow : WindowStyle.None;
-        }
-
-        private void Window_MouseLeave(object sender, MouseEventArgs e)
-        {
-            timer.Start();
-        }
-
-        private void Window_MouseEnter(object sender, MouseEventArgs e)
-        {
-            // timer canceled, reset
-            timer.Stop();
-        }
-
-        private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            // timer canceled, reset
-            timer.Stop();
-            WindowStyle = WindowStyle.SingleBorderWindow;
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            // timer finished, reset
-            timer.Stop();
-            WindowStyle = WindowStyle.None;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            foreach (var item in imageWindows)
+            {
+                item.Close();
+            }
             SaveDataIO.Save(saveData);
         }
     }

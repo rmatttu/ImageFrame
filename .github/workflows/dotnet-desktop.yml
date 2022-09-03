@@ -56,10 +56,10 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: source\ImageFrame\ImageFrame.sln
-      Test_Project_Path: Source\ImageFrame\ImageFrame.Test\ImageFrame.Test.csproj
-      Wap_Project_Directory: Source\ImageFrame\ImageFrame.Package
-      Wap_Project_Path: Source\ImageFrame\ImageFrame.Package\ImageFrame.Package.wapproj
+      Solution_Name: ImageFrame.sln
+      Test_Project_Path: ImageFrame.Test\ImageFrame.Test.csproj
+      Wap_Project_Directory: ImageFrame.Package
+      Wap_Project_Path: ImageFrame.Package\ImageFrame.Package.wapproj
 
     steps:
     - name: Checkout

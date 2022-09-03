@@ -1,6 +1,3 @@
-using System;
-using Xunit;
-
 namespace ImageFrame.Test
 {
     public class UnitTest1

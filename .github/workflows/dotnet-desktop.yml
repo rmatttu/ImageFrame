@@ -57,15 +57,16 @@ jobs:
 
     env:
       Solution_Name: ImageFrame.sln
-      Test_Project_Path: your-test-project-path                 # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
-      Wap_Project_Directory: ImageFrame
-      Wap_Project_Path: ImageFrame
+      Test_Project_Path: ImageFrame.Test\ImageFrame.Test.csproj
+      Wap_Project_Directory: ImageFrame.Package
+      Wap_Project_Path: ImageFrame.Package\ImageFrame.Package.wapproj
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+        lfs: true
 
     # Install the .NET Core workload
     - name: Install .NET Core
@@ -79,7 +80,7 @@ jobs:
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet test
+      run: dotnet test $env:Test_Project_Path
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application

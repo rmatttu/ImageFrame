@@ -60,6 +60,7 @@ jobs:
       Test_Project_Path: ImageFrame.Test\ImageFrame.Test.csproj
       Wap_Project_Directory: ImageFrame.Package
       Wap_Project_Path: ImageFrame.Package\ImageFrame.Package.wapproj
+      Project_Name: ImageFrame
       Platform: x64
 
     steps:
@@ -90,13 +91,18 @@ jobs:
         Configuration: ${{ matrix.configuration }}
 
     - name: Build the application
-      run: msbuild $env:Solution_Name /t:build /p:Configuration=${{ matrix.configuration }} /p:Platform="${{ env.Platform }}"
+      run:
+        msbuild $env:Solution_Name
+        /p:BuildProjectReferences=false
+        /t:${{ $env:Project_Name }}
+        /p:Configuration=${{ matrix.configuration }}
+        /p:Platform="${{ env.Platform }}"
 
     - name: Upload binary artifacts
       uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.configuration }}-${{ env.Platform }}
-        path: $env:Solution_Name\bin
+        path: ${{ $env:Project_Name }}\bin
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx

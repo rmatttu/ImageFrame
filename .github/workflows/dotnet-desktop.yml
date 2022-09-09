@@ -92,9 +92,9 @@ jobs:
 
     - name: Build the application
       run:
-        msbuild $env:Solution_Name
+        msbuild ${{ env.Solution_Name }}
         /p:BuildProjectReferences=false
-        /t:${{ $env:Project_Name }}
+        /t:${{ env.Project_Name }}
         /p:Configuration=${{ matrix.configuration }}
         /p:Platform="${{ env.Platform }}"
 
@@ -102,7 +102,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.configuration }}-${{ env.Platform }}
-        path: ${{ $env:Project_Name }}\bin
+        path: ${{ env.Project_Name }}\bin
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx
